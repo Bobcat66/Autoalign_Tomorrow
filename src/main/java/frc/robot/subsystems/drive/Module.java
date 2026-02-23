@@ -10,7 +10,7 @@ import static edu.wpi.first.units.Units.Newtons;
 import edu.wpi.first.units.measure.Force;
 import frc.robot.subsystems.drive.DriveConstants.ModuleK.Common.DriveMotorK;
 import frc.robot.subsystems.drive.DriveConstants.ModuleK.Common.SteerMotorK;
-import frc.robot.subsystems.drive.io.ModuleIO;
+import frc.robot.subsystems.drive.io.*;
 
 import static frc.robot.subsystems.drive.DriveConstants.ModuleK.Common.kWheelRadius;
 public class Module {

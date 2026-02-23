@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import frc.robot.subsystems.vision.io.CameraIO;
+import frc.robot.subsystems.vision.io.*;
 import frc.robot.utils.VirtualSubsystem;
 
 public class Camera extends VirtualSubsystem {
