@@ -20,8 +20,16 @@ public class VisionConstants {
 
     public static final AprilTagFieldLayout kFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
     public static enum PhotonCamConfig {
-        PLACEHOLDER_CAM(
-            "PlaceholderCam",
+        BLUE_CAM(
+            "blue_cam",
+            kDefaultSDseed,
+            0.0, 0.0, 0.0, // x, y, z in inches
+            0.0, 0.0, 0.0, // roll, pitch, yaw in degrees
+            true, 1.0 // headingFree, headingScaleFactor (Constrained PnP parameters)
+        ),
+
+        RED_CAM(
+            "red_cam",
             kDefaultSDseed,
             0.0, 0.0, 0.0, // x, y, z in inches
             0.0, 0.0, 0.0, // roll, pitch, yaw in degrees

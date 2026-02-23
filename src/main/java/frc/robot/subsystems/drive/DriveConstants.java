@@ -1,6 +1,8 @@
 package frc.robot.subsystems.drive;
 
 
+import com.pathplanner.lib.path.PathConstraints;
+
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
@@ -104,5 +106,8 @@ public final class DriveConstants {
             public static final double kI = 0.0;
             public static final double kD = 0.0;
         }
+
+        public static final PathConstraints kPathConstraints = new PathConstraints(3, 3, Units.degreesToRadians(360), Units.degreesToRadians(360));
+        public static final double kPathTolerance = 0.1; // Meters
     }
 }

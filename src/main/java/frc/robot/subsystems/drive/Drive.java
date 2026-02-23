@@ -45,6 +45,8 @@ import frc.robot.subsystems.drive.DriveConstants.AutonK.RotationK;
 import frc.robot.subsystems.drive.DriveConstants.AutonK.TranslationK;
 import frc.robot.subsystems.drive.io.GyroIO;
 import frc.robot.subsystems.vision.Camera;
+import frc.robot.subsystems.vision.VisionConstants.PhotonCamConfig;
+import frc.robot.subsystems.vision.io.CameraIOPhoton;
 
 /*
  * This is the main drive subsystem. This class handles the overall swerve drive logic,
@@ -120,6 +122,9 @@ public class Drive extends SubsystemBase {
             () -> (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red),
             this
         );
+
+        cameras.add(new Camera(new CameraIOPhoton(PhotonCamConfig.BLUE_CAM,this::getPose,() -> poseEstimator.getEstimatedPosition().getRotation().toRotation2d())));
+        cameras.add(new Camera(new CameraIOPhoton(PhotonCamConfig.RED_CAM,this::getPose,() -> poseEstimator.getEstimatedPosition().getRotation().toRotation2d())));
     }
     
     @Override
