@@ -79,7 +79,8 @@ public class ModuleIOHardware implements ModuleIO {
         SparkMaxConfig driveConfig = new SparkMaxConfig();
         driveConfig
             .idleMode(IdleMode.kBrake)
-            .smartCurrentLimit(DriveMotorK.kCurrentLimit);
+            .smartCurrentLimit(DriveMotorK.kCurrentLimit)
+            .inverted(config.DriveInverted);
         if (DriveMotorK.kVoltageCompensation) driveConfig.voltageCompensation(DriveMotorK.kNominalVoltage);
         driveConfig.encoder
             .positionConversionFactor(driveConversionFactor)
@@ -105,7 +106,8 @@ public class ModuleIOHardware implements ModuleIO {
         SparkMaxConfig steerConfig = new SparkMaxConfig();
         steerConfig
             .idleMode(IdleMode.kBrake)
-            .smartCurrentLimit(SteerMotorK.kCurrentLimit);
+            .smartCurrentLimit(SteerMotorK.kCurrentLimit)
+            .inverted(config.SteerInverted);
         if (SteerMotorK.kVoltageCompensation) steerConfig.voltageCompensation(SteerMotorK.kNominalVoltage);
         steerConfig.encoder
             .positionConversionFactor(steerConversionFactor)

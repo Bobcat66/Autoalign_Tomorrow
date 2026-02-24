@@ -19,8 +19,8 @@ public final class DriveConstants {
     public static final double kMass = 50.0; // kg
     public static final double kMOI = 1.0; // kg*m^2
 
-    public static final double kWheelBase = 0.558; //Meters
-    public static final double kTrackWidth = 0.558; //Meters
+    public static final double kWheelBase = Units.inchesToMeters(22); //Meters
+    public static final double kTrackWidth = Units.inchesToMeters(22); //Meters
     public static final Translation2d[] kModuleTranslations = new Translation2d[] {
         new Translation2d(kTrackWidth / 2.0, kWheelBase / 2.0),
         new Translation2d(kTrackWidth / 2.0, -kWheelBase / 2.0),
@@ -38,7 +38,7 @@ public final class DriveConstants {
 
             public static class DriveMotorK {
                 public static final DCMotor kMotorModel = DCMotor.getNEO(1); // Motor model for the drive motor
-                public static final int kCurrentLimit = 60;
+                public static final int kCurrentLimit = 40;
                 public static final boolean kVoltageCompensation = true;
                 public static final double kNominalVoltage = 12.0;
                 public static final double kGearReduction = 6.75;
@@ -59,7 +59,7 @@ public final class DriveConstants {
                 public static final int kCurrentLimit = 60;
                 public static final boolean kVoltageCompensation = true;
                 public static final double kNominalVoltage = 12;
-                public static final double kGearRatio = 12.8;
+                public static final double kGearRatio = 21.428;
 
                 // PID constants
                 public static final double kP = 0.75;
@@ -74,20 +74,24 @@ public final class DriveConstants {
         }
         public static enum ModuleConfig {
     
-            FrontLeft(2,1,21,-0.441162109375 +0.5),
-            FrontRight(4,3,22,-0.3984375 +0.5),
-            RearLeft(8,7,23,-0.525146484375),
-            RearRight(6,5,24,-0.931396484375);
+            FrontLeft(2,1,21,true,true,Units.degreesToRotations(90)),
+            FrontRight(4,3,22,true,true,Units.degreesToRotations(193.711)),
+            RearLeft(8,7,23,true,true,Units.degreesToRotations(240.372)),
+            RearRight(6,5,24,true,true,Units.degreesToRotations(303.7));
     
             public final int DrivePort;
             public final int SteerPort;
+            public final boolean DriveInverted;
+            public final boolean SteerInverted;
             public final int EncoderPort;
             public final double EncoderOffsetRots;
     
-            private ModuleConfig(int DrivePort, int SteerPort,int EncoderPort,double EncoderOffsetRots) {
+            private ModuleConfig(int DrivePort, int SteerPort,int EncoderPort, boolean DriveInverted, boolean SteerInverted,double EncoderOffsetRots) {
                 this.DrivePort = DrivePort;
                 this.SteerPort = SteerPort;
                 this.EncoderPort = EncoderPort;
+                this.DriveInverted = DriveInverted;
+                this.SteerInverted = SteerInverted;
                 this.EncoderOffsetRots = EncoderOffsetRots;
             }
         }
