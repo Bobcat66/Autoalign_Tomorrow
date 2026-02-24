@@ -14,7 +14,7 @@ import edu.wpi.first.math.util.Units;
  */
 public final class DriveConstants {
 
-    public static final int kOdometryFrequencyHz = 250;
+    public static final int kOdometryFrequencyHz = 200;
     public static final int kGyroPort = 9;
     public static final double kMass = 50.0; // kg
     public static final double kMOI = 1.0; // kg*m^2

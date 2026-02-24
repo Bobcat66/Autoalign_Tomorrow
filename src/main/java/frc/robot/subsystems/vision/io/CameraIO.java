@@ -1,5 +1,6 @@
 package frc.robot.subsystems.vision.io;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.littletonrobotics.junction.AutoLog;
@@ -53,7 +54,7 @@ public interface CameraIO {
     ) {}
 
     @SuppressWarnings("unchecked")
-    public static Vector<N4>[] getSDVectors(VisionStdDevs StdDevs) {
+    public static List<Vector<N4>> getSDVectors(VisionStdDevs StdDevs) {
         var multitagStdDevs = VecBuilder.fill(
             StdDevs.transMultiTagStdDev(),
             StdDevs.transMultiTagStdDev(),
@@ -66,7 +67,10 @@ public interface CameraIO {
             StdDevs.transSingleTagStdDev(),
             StdDevs.rotSingleTagStdDev()
         );
-        return (Vector<N4>[]) new Object[]{multitagStdDevs,singletagStdDevs};
+        ArrayList<Vector<N4>> out = new ArrayList<>();
+        out.add(multitagStdDevs);
+        out.add(singletagStdDevs);
+        return out;
     }
 
     public abstract void updateInputs(CameraIOInputs inputs);

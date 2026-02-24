@@ -117,7 +117,8 @@ public class Drive extends SubsystemBase {
                     ModuleK.Common.DriveMotorK.kMotorModel,
                     ModuleK.Common.DriveMotorK.kCurrentLimit,
                     1
-                )
+                ),
+                DriveConstants.kModuleTranslations
             ),
             () -> (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red),
             this

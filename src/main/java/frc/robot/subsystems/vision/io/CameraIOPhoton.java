@@ -59,8 +59,8 @@ public class CameraIOPhoton implements CameraIO {
         );
         cpnpParams = (config.cpnpParams == null) ? Optional.empty() : Optional.of(config.cpnpParams);
         var SDVectorArray = CameraIO.getSDVectors(config.SDseed);
-        defaultMultiTagStdDevs = SDVectorArray[0];
-        defaultSingleTagStdDevs = SDVectorArray[1];
+        defaultMultiTagStdDevs = SDVectorArray.get(0);
+        defaultSingleTagStdDevs = SDVectorArray.get(1);
         cameraMatrix = camera.getCameraMatrix();
         distCoeffs = camera.getDistCoeffs().map(Vector<N8>::new);
         this.headingSupplier = headingSupplier;
@@ -118,6 +118,7 @@ public class CameraIOPhoton implements CameraIO {
 
     @Override
     public void updateInputs(CameraIOInputs inputs) {
+        /*
         var it = captureTimestamps.iterator();
         int tDeltaCount = 0;
         double cumulativetDelta = 0.0;
@@ -133,10 +134,11 @@ public class CameraIOPhoton implements CameraIO {
             tDeltaCount++;
         }
         double avgFPS = tDeltaCount > 0 ? (cumulativetDelta / tDeltaCount) : 0.0;
+        */
         inputs.data = new CameraIOData(
             camera.isConnected(),
             latestResult.getTargets().size(),
-            avgFPS,
+            0, //temp disabled for now
             latestResult.metadata.getLatencyMillis()
         );
     }
