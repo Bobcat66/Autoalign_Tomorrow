@@ -71,7 +71,8 @@ public class ModuleIOHardware implements ModuleIO {
         CANcoderConfiguration encoderConfig = new CANcoderConfiguration();
         encoderConfig.FutureProofConfigs = false;
         encoderConfig.MagnetSensor.AbsoluteSensorDiscontinuityPoint = 1.0;
-        encoderConfig.MagnetSensor.MagnetOffset = config.EncoderOffsetRots;
+        encoderConfig.MagnetSensor.MagnetOffset = -config.EncoderOffsetRots;
+        m_steerCANcoder.getConfigurator().apply(encoderConfig);
         steerAbsolutePosition = m_steerCANcoder.getAbsolutePosition();
 
         // Drive motor configuration
@@ -99,7 +100,7 @@ public class ModuleIOHardware implements ModuleIO {
             .busVoltagePeriodMs(20)
             .outputCurrentPeriodMs(20);
         m_driveMotor.configure(driveConfig,ResetMode.kResetSafeParameters,PersistMode.kPersistParameters);
-        m_driveEncoder.setPosition(0.0);
+        m_driveEncoder.setPosition(steerAbsolutePosition.getValueAsDouble());
 
         // Steer motor configuration
         double steerConversionFactor = 1/SteerMotorK.kGearRatio;

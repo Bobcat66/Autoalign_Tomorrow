@@ -47,7 +47,7 @@ import frc.robot.subsystems.drive.io.*;
 import frc.robot.subsystems.vision.Camera;
 import frc.robot.subsystems.vision.VisionConstants.PhotonCamConfig;
 import frc.robot.subsystems.vision.io.CameraIOPhoton;
-
+import edu.wpi.first.wpilibj.Timer;
 /*
  * This is the main drive subsystem. This class handles the overall swerve drive logic,
  * including keeping track of the robot's pose, converting robot speeds into swerve module commands,
@@ -136,15 +136,20 @@ public class Drive extends SubsystemBase {
         // this metho is called BEFORE any data is accessed from the Odometry thread
         double[] timestamps = OdometryThread.getInstance().poll();
 
+        var t0 = Timer.getFPGATimestamp();
         // Logs data from the gyroscope
+        
         gyroIO.updateInputs(gyroInputs);
         Logger.processInputs("Drive/Gyro", gyroInputs);
-
+        
+        var t1 = Timer.getFPGATimestamp();
+        
         for (var module: modules) {
             module.periodic();
         }
-
+        var t2 = Timer.getFPGATimestamp();
         // Update the pose estimator with the latest module positions and gyro data
+
         int sampleCount = OdometryThread.getInstance().getSampleCount();
         for (int i = 0; i < sampleCount; i++) {
             SwerveModulePosition[] modulePositions = new SwerveModulePosition[4];
@@ -165,16 +170,24 @@ public class Drive extends SubsystemBase {
                 rawGyroHeading = rawGyroHeading.plus(new Rotation3d(new Rotation2d(twist.dtheta)));
             }
             poseEstimator.updateWithTime(timestamps[i],rawGyroHeading,modulePositions);
-            for (Camera cam : cameras) {
-                for (var poseEstimate : cam.getPoseObservations()) {
-                    poseEstimator.addVisionMeasurement(
-                        poseEstimate.pose(),
-                        poseEstimate.timestampSeconds(),
-                        poseEstimate.stddevs()
-                    );
-                }
+        
+        }
+        var t3 = Timer.getFPGATimestamp();
+        for (Camera cam : cameras) {
+            for (var poseEstimate : cam.getPoseObservations()) {
+                poseEstimator.addVisionMeasurement(
+                    poseEstimate.pose(),
+                    poseEstimate.timestampSeconds(),
+                    poseEstimate.stddevs()
+                );
             }
         }
+        var t4 = Timer.getFPGATimestamp();
+        //System.out.println("--------------------------------");
+        //System.out.println(t4-t3);
+        //System.out.println(t3-t2);
+        //System.out.println(t2-t1);
+        //System.out.println(t1-t0);
     }
 
     // This method resets the pose estimator's rotation to a specific angle.

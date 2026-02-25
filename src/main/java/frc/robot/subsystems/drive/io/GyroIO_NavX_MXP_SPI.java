@@ -52,9 +52,9 @@ public class GyroIO_NavX_MXP_SPI implements GyroIO {
         last_pitch = current_pitch;
 
         inputs.odometryPositions = StreamUtils.trizip(
-            odometryRollPositionsRadians.stream(),
-            odometryPitchPositionsRadians.stream(),
-            odometryYawPositionsRadians.stream(),
+            odometryRollPositionsRadians.stream().limit(OdometryThread.getInstance().getSampleCount()),
+            odometryPitchPositionsRadians.stream().limit(OdometryThread.getInstance().getSampleCount()),
+            odometryYawPositionsRadians.stream().limit(OdometryThread.getInstance().getSampleCount()),
             (roll,pitch,yaw) -> new Rotation3d(roll,pitch,yaw)
         ).toArray(Rotation3d[]::new);
     }

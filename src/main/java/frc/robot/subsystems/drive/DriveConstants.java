@@ -14,7 +14,7 @@ import edu.wpi.first.math.util.Units;
  */
 public final class DriveConstants {
 
-    public static final int kOdometryFrequencyHz = 200;
+    public static final int kOdometryFrequencyHz = 100;
     public static final int kGyroPort = 9;
     public static final double kMass = 50.0; // kg
     public static final double kMOI = 1.0; // kg*m^2
@@ -44,13 +44,13 @@ public final class DriveConstants {
                 public static final double kGearReduction = 6.75;
 
                 //PID constants
-                public static final double kP = 0.035;
+                public static final double kP = 0.002;
                 public static final double kI = 0.000;
-                public static final double kD = 0.0012;
+                public static final double kD = 0.0000;
 
                 //Feedforward constants
                 public static final double kS = 0.0;
-                public static final double kV = 2.78;
+                public static final double kV = 0.0;
 
             }
 
@@ -62,22 +62,22 @@ public final class DriveConstants {
                 public static final double kGearRatio = 21.428;
 
                 // PID constants
-                public static final double kP = 0.75;
+                public static final double kP = 1.0;
                 public static final double kI = 0.0;
-                public static final double kD = 0.0001;
+                public static final double kD = 0.0000;
 
                 //Feedforward constants
                 public static final double kS = 0.0;
-                public static final double kV = 2.78;
+                public static final double kV = 0.00;
                 public static final double kA = 0.0;
             }
         }
         public static enum ModuleConfig {
     
-            FrontLeft(2,1,21,true,true,Units.degreesToRotations(90)),
-            FrontRight(4,3,22,true,true,Units.degreesToRotations(193.711)),
-            RearLeft(8,7,23,true,true,Units.degreesToRotations(240.372)),
-            RearRight(6,5,24,true,true,Units.degreesToRotations(303.7));
+            FrontLeft(2,1,21,true,true,0.25415),
+            FrontRight(4,3,22,true,true,0.535156),
+            RearLeft(8,7,23,true,true,0.663574),
+            RearRight(6,5,24,true,true,0.843600);
     
             public final int DrivePort;
             public final int SteerPort;
