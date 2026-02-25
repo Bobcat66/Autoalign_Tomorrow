@@ -180,17 +180,17 @@ public class ModuleIOHardware implements ModuleIO {
 
     @Override
     public void setDriveVolts(double volts){
-        m_driveController.setReference(volts,SparkBase.ControlType.kVoltage);
+        m_driveController.setSetpoint(volts, SparkBase.ControlType.kVoltage);
     }
 
     @Override
     public void setSteerVolts(double volts){
-        m_steerController.setReference(volts,SparkBase.ControlType.kVoltage);
+        m_steerController.setSetpoint(volts,SparkBase.ControlType.kVoltage);
     }
 
     @Override
     public void setDriveVelocity(double velocityRPM,double FFVolts){
-        m_driveController.setReference(
+        m_driveController.setSetpoint(
             velocityRPM,
             SparkBase.ControlType.kVelocity,
             ClosedLoopSlot.kSlot0,
@@ -201,7 +201,7 @@ public class ModuleIOHardware implements ModuleIO {
 
     @Override
     public void setSteerHeading(double headingRotations){
-        m_steerController.setReference(
+        m_steerController.setSetpoint(
             headingRotations,
             SparkBase.ControlType.kPosition,
             ClosedLoopSlot.kSlot0

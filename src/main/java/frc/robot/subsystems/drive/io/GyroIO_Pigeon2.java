@@ -1,6 +1,9 @@
 package frc.robot.subsystems.drive.io;
 
+import java.util.Objects;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.stream.DoubleStream;
+import java.util.stream.Stream;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
@@ -57,11 +60,16 @@ public class GyroIO_Pigeon2 implements GyroIO {
             new Rotation2d(roll.getValue()),
             rollVelocity.getValue().in(RadiansPerSecond)
         );
-
         inputs.odometryPositions = StreamUtils.trizip(
-            odometryRollPositionsRadians.stream(),
-            odometryPitchPositionsRadians.stream(),
-            odometryYawPositionsRadians.stream(),
+            Stream.generate(odometryRollPositionsRadians::poll)
+                .takeWhile(Objects::nonNull)
+                .limit(OdometryThread.getInstance().getSampleCount()),
+            Stream.generate(odometryPitchPositionsRadians::poll)
+                .takeWhile(Objects::nonNull)
+                .limit(OdometryThread.getInstance().getSampleCount()),
+            Stream.generate(odometryYawPositionsRadians::poll)
+                .takeWhile(Objects::nonNull)
+                .limit(OdometryThread.getInstance().getSampleCount()),
             (roll,pitch,yaw) -> new Rotation3d(roll,pitch,yaw)
         ).toArray(Rotation3d[]::new);
     }

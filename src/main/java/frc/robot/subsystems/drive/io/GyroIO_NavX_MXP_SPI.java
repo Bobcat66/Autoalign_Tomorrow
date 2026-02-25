@@ -2,7 +2,9 @@ package frc.robot.subsystems.drive.io;
 
 import static frc.robot.subsystems.drive.DriveConstants.kOdometryFrequencyHz;
 
+import java.util.Objects;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.stream.Stream;
 
 import com.studica.frc.AHRS;
 import com.studica.frc.AHRS.NavXComType;
@@ -10,7 +12,6 @@ import com.studica.frc.AHRS.NavXComType;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.drive.OdometryThread;
 import frc.robot.utils.StreamUtils;
@@ -52,9 +53,15 @@ public class GyroIO_NavX_MXP_SPI implements GyroIO {
         last_pitch = current_pitch;
 
         inputs.odometryPositions = StreamUtils.trizip(
-            odometryRollPositionsRadians.stream().limit(OdometryThread.getInstance().getSampleCount()),
-            odometryPitchPositionsRadians.stream().limit(OdometryThread.getInstance().getSampleCount()),
-            odometryYawPositionsRadians.stream().limit(OdometryThread.getInstance().getSampleCount()),
+            Stream.generate(odometryRollPositionsRadians::poll)
+                .takeWhile(Objects::nonNull)
+                .limit(OdometryThread.getInstance().getSampleCount()),
+            Stream.generate(odometryPitchPositionsRadians::poll)
+                .takeWhile(Objects::nonNull)
+                .limit(OdometryThread.getInstance().getSampleCount()),
+            Stream.generate(odometryYawPositionsRadians::poll)
+                .takeWhile(Objects::nonNull)
+                .limit(OdometryThread.getInstance().getSampleCount()),
             (roll,pitch,yaw) -> new Rotation3d(roll,pitch,yaw)
         ).toArray(Rotation3d[]::new);
     }
